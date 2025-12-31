@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { UploadButton } from "@uploadthing/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import type { OurFileRouter } from "@/lib/uploadthing";
 import { toastSuccess, toastError } from "@/lib/toast";
@@ -87,35 +87,25 @@ export default function SettingsClient({
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex flex-col items-center gap-4">
-              <div className="relative h-32 w-32 overflow-hidden rounded-full border-2">
-                {avatarUrl ? (
-                  <Image
-                    src={avatarUrl}
-                    alt="Profile picture"
-                    width={128}
-                    height={128}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-muted">
-                    <svg
-                      className="h-12 w-12 text-muted-foreground"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
-                  </div>
-                )}
-              </div>
-              {/* @ts-expect-error - UploadButton type issue, but works at runtime */}
-              <UploadButton<OurFileRouter>
+              <Avatar className="h-32 w-32 border-2">
+                {avatarUrl && <AvatarImage src={avatarUrl} alt="Profile picture" />}
+                <AvatarFallback>
+                  <svg
+                    className="h-12 w-12 text-muted-foreground"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                </AvatarFallback>
+              </Avatar>
+              <UploadButton<OurFileRouter, "avatarUploader">
                 endpoint="avatarUploader"
                 onUploadBegin={() => setIsUploading(true)}
                 onClientUploadComplete={handleUploadComplete}

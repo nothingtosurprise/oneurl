@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { UploadButton } from "@uploadthing/react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import type { OurFileRouter } from "@/lib/uploadthing";
 
 interface AvatarClientProps {
@@ -14,12 +15,6 @@ export default function AvatarClient({ initialImageUrl }: AvatarClientProps) {
   const router = useRouter();
   const [avatarUrl, setAvatarUrl] = useState<string | null>(initialImageUrl);
   const [isUploading, setIsUploading] = useState(false);
-
-  useEffect(() => {
-    if (initialImageUrl && !avatarUrl) {
-      setAvatarUrl(initialImageUrl);
-    }
-  }, [initialImageUrl, avatarUrl]);
 
   const handleUploadComplete = async (res: { url: string }[]) => {
     if (res && res[0]?.url) {
@@ -63,39 +58,32 @@ export default function AvatarClient({ initialImageUrl }: AvatarClientProps) {
         </div>
 
         <div className="flex flex-col items-center space-y-4">
-          <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-dashed border-muted-foreground/30">
-            {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                alt="Avatar preview"
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                <svg
-                  className="h-12 w-12"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              </div>
-            )}
-          </div>
+          <Avatar className="h-32 w-32 border-2 border-dashed border-muted-foreground/30">
+            {avatarUrl && <AvatarImage src={avatarUrl} alt="Avatar preview" />}
+            <AvatarFallback>
+              <svg
+                className="h-12 w-12 text-muted-foreground"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </AvatarFallback>
+          </Avatar>
 
-          <UploadButton<OurFileRouter>
+          <UploadButton<OurFileRouter, "avatarUploader">
             endpoint="avatarUploader"
             onUploadBegin={() => setIsUploading(true)}
             onClientUploadComplete={handleUploadComplete}
             onUploadError={() => setIsUploading(false)}
             content={{
-              button: ({ ready }) => (
+              button: ({ ready }: { ready: boolean }) => (
                 <Button type="button" disabled={!ready || isUploading}>
                   {isUploading ? "Uploading..." : "Choose File"}
                 </Button>

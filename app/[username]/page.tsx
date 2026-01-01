@@ -28,19 +28,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const avatarUrl = getAvatarUrl(user);
+  const profileUrl = `https://oneurl-alpha.vercel.app/${username}`;
+  const images = avatarUrl 
+    ? [{ url: avatarUrl, width: 400, height: 400, alt: `${user.name}'s profile picture` }]
+    : [{ url: "/og.png", width: 1200, height: 630, alt: "OneURL" }];
+
   return {
     title: `${user.name} | OneURL`,
     description: user.bio || `Visit ${user.name}'s profile on OneURL`,
+    metadataBase: new URL("https://oneurl-alpha.vercel.app"),
     openGraph: {
       title: `${user.name} | OneURL`,
       description: user.bio || `Visit ${user.name}'s profile on OneURL`,
-      images: avatarUrl ? [avatarUrl] : [],
+      url: profileUrl,
+      siteName: "OneURL",
+      images,
+      locale: "en_US",
+      type: "profile",
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: `${user.name} | OneURL`,
       description: user.bio || `Visit ${user.name}'s profile on OneURL`,
-      images: avatarUrl ? [avatarUrl] : [],
+      images: images.map(img => img.url),
+    },
+    alternates: {
+      canonical: profileUrl,
     },
   };
 }

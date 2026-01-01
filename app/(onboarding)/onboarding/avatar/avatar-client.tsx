@@ -110,8 +110,8 @@ export default function AvatarClient({
     <div className="w-full max-w-md mx-auto px-4 py-12">
       <div className="w-full space-y-6">
         <div className="space-y-2 text-center">
-          <h2 className="text-2xl font-semibold">Complete your profile</h2>
-          <p className="text-sm text-muted-foreground">
+          <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">Complete your profile</h2>
+          <p className="text-xs text-zinc-600">
             Add your profile picture, name, and bio to personalize your page
           </p>
         </div>

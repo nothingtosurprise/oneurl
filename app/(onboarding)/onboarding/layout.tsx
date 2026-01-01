@@ -22,8 +22,8 @@ export default function OnboardingLayout({
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-100">
-      <div className="border-b bg-white">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      <div className="border-b-2 border-dashed border-zinc-200 bg-zinc-100/80">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2">
             <Image
               src="/logo.png"
@@ -32,7 +32,7 @@ export default function OnboardingLayout({
               height={128}
               className="h-12 w-12"
             />
-            <h1 className="text-lg font-semibold">OneURL</h1>
+            <h1 className="text-sm font-medium font-mono">OneURL</h1>
           </Link>
           <Button variant="ghost" size="sm" render={<Link href="/dashboard">Skip for now</Link>}>
             <Link href="/dashboard">Skip for now</Link>
@@ -40,8 +40,8 @@ export default function OnboardingLayout({
         </div>
       </div>
 
-      <div className="border-b bg-white/50">
-        <div className="container mx-auto px-4 py-4">
+      <div className="border-b-2 border-dashed border-zinc-200 bg-zinc-100/80">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             {steps.map((step, index) => {
               const isActive = index === currentStep;
@@ -52,10 +52,10 @@ export default function OnboardingLayout({
                     <div
                       className={`flex h-8 w-8 items-center justify-center rounded-full border-2 transition-colors ${
                         isActive
-                          ? "border-primary bg-primary text-primary-foreground"
+                          ? "border-zinc-900 bg-zinc-900 text-white"
                           : isCompleted
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-muted-foreground/30 text-muted-foreground"
+                            ? "border-zinc-900 bg-zinc-900 text-white"
+                            : "border-zinc-300 text-zinc-500"
                       }`}
                     >
                       {isCompleted ? (
@@ -73,7 +73,7 @@ export default function OnboardingLayout({
                           />
                         </svg>
                       ) : (
-                        <span className="text-sm font-medium">
+                        <span className="text-xs font-medium">
                           {step.step}
                         </span>
                       )}
@@ -81,8 +81,8 @@ export default function OnboardingLayout({
                     <span
                       className={`mt-2 text-xs font-medium ${
                         isActive
-                          ? "text-foreground"
-                          : "text-muted-foreground"
+                          ? "text-zinc-900"
+                          : "text-zinc-500"
                       }`}
                     >
                       {step.label}
@@ -92,8 +92,8 @@ export default function OnboardingLayout({
                     <div
                       className={`mx-2 h-0.5 flex-1 transition-colors ${
                         isCompleted
-                          ? "bg-primary"
-                          : "bg-muted-foreground/30"
+                          ? "bg-zinc-900"
+                          : "bg-zinc-300"
                       }`}
                     />
                   )}
@@ -104,7 +104,7 @@ export default function OnboardingLayout({
         </div>
       </div>
 
-      <div className="flex flex-1 items-center justify-center">{children}</div>
+      <div className="flex flex-1 items-center justify-center font-mono text-sm">{children}</div>
     </div>
   );
 }

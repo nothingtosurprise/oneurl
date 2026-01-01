@@ -19,8 +19,8 @@ export default async function PreviewPage() {
   return (
     <div className="w-full max-w-4xl mx-auto flex flex-col gap-8 px-4 py-12">
       <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-semibold">Preview your profile</h2>
-        <p className="text-sm text-muted-foreground">
+        <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">Preview your profile</h2>
+        <p className="text-xs text-zinc-600">
           This is how your profile will look to visitors
         </p>
       </div>

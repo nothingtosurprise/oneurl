@@ -115,8 +115,8 @@ export default function LinksPage() {
     <div className="w-full max-w-md mx-auto px-4 py-12">
       <div className="w-full space-y-6">
         <div className="space-y-2 text-center">
-          <h2 className="text-2xl font-semibold">Add your links</h2>
-          <p className="text-sm text-muted-foreground">
+          <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">Add your links</h2>
+          <p className="text-xs text-zinc-600">
             Add the links you want to share on your profile
           </p>
         </div>
@@ -146,7 +146,7 @@ export default function LinksPage() {
                 <>
                   {iconLinks.length > 0 && (
                     <div className="space-y-3">
-                      <h3 className="text-sm font-medium text-muted-foreground">Icon Links</h3>
+                      <h3 className="text-xs font-medium text-zinc-600">Icon Links</h3>
                       <div className="flex items-center gap-3 flex-wrap">
                         {iconLinks.map((link) => (
                           <div key={link.id}>
@@ -162,14 +162,14 @@ export default function LinksPage() {
 
                   {mainLinks.length > 0 && (
                     <div className="space-y-3">
-                      <h3 className="text-sm font-medium text-muted-foreground">Main Links</h3>
+                      <h3 className="text-xs font-medium text-zinc-600">Main Links</h3>
                       <div className="space-y-2">
                         {mainLinks.map((link) => (
-                          <Card key={link.id}>
+                          <Card key={link.id} className="border-zinc-200">
                             <CardContent className="flex items-center justify-between py-3">
                               <div className="flex-1 min-w-0">
-                                <p className="font-medium truncate text-sm">{link.title}</p>
-                                <p className="text-xs text-muted-foreground truncate mt-0.5">{link.url}</p>
+                                <p className="font-medium truncate text-xs">{link.title}</p>
+                                <p className="text-xs text-zinc-500 truncate mt-0.5">{link.url}</p>
                               </div>
                               <Button
                                 variant="destructive-outline"

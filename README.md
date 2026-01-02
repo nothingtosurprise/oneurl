@@ -111,11 +111,13 @@ cd ..
 ### 6. Run the Development Servers
 
 **Option 1: Run both services together**
+
 ```bash
 bun run dev:all
 ```
 
 **Option 2: Run separately**
+
 ```bash
 # Terminal 1 - Frontend
 bun run dev
@@ -158,95 +160,21 @@ oneurl/
 ## Available Scripts
 
 **Frontend:**
+
 - `bun run dev` - Start Next.js development server
 - `bun run build` - Build for production
 - `bun run start` - Start production server
 - `bun run lint` - Run ESLint
 
 **Backend:**
+
 - `bun run dev:backend` - Start backend development server
 - `bun run build:backend` - Build backend for production
 - `bun run start:backend` - Start backend production server
 
 **Both:**
+
 - `bun run dev:all` - Run both frontend and backend in development mode
-
-## Additional Setup
-
-### Google OAuth Setup
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing one
-3. Enable Google+ API
-4. Create OAuth 2.0 credentials
-5. Add authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
-6. Copy Client ID and Client Secret to `.env`
-
-### UploadThing Setup (Optional)
-
-UploadThing is used for secure file uploads (avatars). To enable avatar uploads:
-
-1. Sign up at [uploadthing.com](https://uploadthing.com) (free tier available)
-2. Create a new app
-3. Copy your `UPLOADTHING_TOKEN`
-4. Add them to your `.env` file
-
-The app will work without UploadThing, but avatar upload functionality will be disabled.
-
-## Usage
-
-1. Sign In - Click "Sign In" and authenticate with Google
-2. Onboarding - Complete the onboarding flow:
-   - Choose a username
-   - Upload an avatar (optional)
-   - Add your links
-   - Preview your profile
-3. Dashboard - Manage your profile, links, and view analytics
-4. Share - Your profile is available at `oneurl.live/yourusername`
-
-## Deployment
-
-### Deploy to Vercel
-
-1. Push your code to GitHub
-2. Import your repository to Vercel
-3. Add all environment variables in Vercel dashboard:
-   - `DATABASE_URL`
-   - `BETTER_AUTH_SECRET`
-   - `BETTER_AUTH_URL` (your production URL)
-   - `GOOGLE_CLIENT_ID`
-   - `GOOGLE_CLIENT_SECRET`
-   - `UPLOADTHING_TOKEN` (if using file uploads)
-4. Deploy!
-
-### Database
-
-For production, use a managed PostgreSQL service like:
-
-- [Neon](https://neon.tech/)
-- [Supabase](https://supabase.com/)
-- [Railway](https://railway.app/)
-
-Update your `DATABASE_URL` in the deployment environment variables.
-
-### Production Checklist
-
-**Frontend:**
-- [ ] Set up production database
-- [ ] Configure Google OAuth with production redirect URI (`https://oneurl.live/api/auth/callback/google`)
-- [ ] Set `BETTER_AUTH_URL` to `https://oneurl.live`
-- [ ] Set `BACKEND_URL` to `https://api.oneurl.live`
-- [ ] Configure UploadThing with production domain (if using)
-- [ ] Update `next.config.ts` image domains if needed
-- [ ] Test all features in production environment
-
-**Backend:**
-- [ ] Deploy backend service (Railway, Render, Fly.io, etc.)
-- [ ] Set `FRONTEND_URL` to `https://oneurl.live`
-- [ ] Set `NODE_ENV` to `production`
-- [ ] Configure DNS: Point `api.oneurl.live` to backend service
-- [ ] Test backend health endpoint: `https://api.oneurl.live/health`
-- [ ] Verify CORS allows requests from `oneurl.live`
 
 ## Contributing
 
@@ -264,7 +192,7 @@ For detailed guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](./LICENSE) file for details.
 
 ---
 

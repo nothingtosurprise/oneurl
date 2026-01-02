@@ -93,7 +93,7 @@ export function QRCodeDialog({
             <div className="space-y-3 border-t pt-6">
               <Button
                 variant="outline"
-                className="w-full justify-between h-auto py-3 px-4"
+                className="w-full justify-between h-auto py-6 px-4"
                 onClick={() => handleDownload("png")}
                 disabled={downloading !== null}
               >
@@ -111,7 +111,7 @@ export function QRCodeDialog({
 
               <Button
                 variant="outline"
-                className="w-full justify-between h-auto py-3 px-4"
+                className="w-full justify-between h-auto py-6 px-4"
                 onClick={() => handleDownload("svg")}
                 disabled={downloading !== null}
               >

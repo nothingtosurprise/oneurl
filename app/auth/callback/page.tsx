@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { CallbackClient } from "./callback-client";
 
+export const dynamic = "force-dynamic";
+
 async function getSessionWithRetry(maxRetries = 5, delay = 300) {
   for (let i = 0; i < maxRetries; i++) {
     try {

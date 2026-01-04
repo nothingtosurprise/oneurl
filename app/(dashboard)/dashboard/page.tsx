@@ -14,6 +14,21 @@ export default async function DashboardPage() {
 
   const avatarUrl = getAvatarUrl(user || { avatarUrl: null, image: null });
 
+  const profileExists = !!profile?.profile;
+  const hasPublishedProfile = !!(
+    profileExists &&
+    profile.profile?.isPublished &&
+    user?.username &&
+    (profile.profile?.links?.length ?? 0) > 0
+  );
+  
+  const shouldShowPublishAlert = !profileExists || !hasPublishedProfile;
+  const canPublish = !!(
+    profileExists &&
+    user?.username &&
+    (profile.profile?.links?.length ?? 0) > 0
+  );
+
   return (
     <DashboardClient
       initialProfile={{
@@ -22,6 +37,8 @@ export default async function DashboardPage() {
         bio: user?.bio || null,
         avatarUrl,
       }}
+      shouldShowPublishAlert={shouldShowPublishAlert}
+      canPublish={canPublish}
     />
   );
 }

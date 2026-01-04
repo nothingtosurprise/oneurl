@@ -20,9 +20,12 @@ import {
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { Link2, Plus, RefreshCw, Link2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { toastSuccess, toastError } from "@/lib/toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertTitle, AlertDescription, AlertAction } from "@/components/ui/alert";
 import {
   Tooltip,
   TooltipTrigger,
@@ -69,9 +72,11 @@ interface DashboardClientProps {
     bio: string | null;
     avatarUrl: string | null;
   };
+  shouldShowPublishAlert: boolean;
+  canPublish: boolean;
 }
 
-export function DashboardClient({ initialProfile }: DashboardClientProps) {
+export function DashboardClient({ initialProfile, shouldShowPublishAlert, canPublish }: DashboardClientProps) {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [iconLinkDialogOpen, setIconLinkDialogOpen] = useState(false);
@@ -81,7 +86,9 @@ export function DashboardClient({ initialProfile }: DashboardClientProps) {
   const [linkToDelete, setLinkToDelete] = useState<string | null>(null);
   const [linkToggling, setLinkToggling] = useState<string | null>(null);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
 
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { data: profile } = useProfile();
@@ -100,6 +107,8 @@ export function DashboardClient({ initialProfile }: DashboardClientProps) {
   );
 
   const displayProfile = profile || initialProfile;
+  
+  const canPublishNow = canPublish || (!!initialProfile.username && links.length > 0);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -110,6 +119,28 @@ export function DashboardClient({ initialProfile }: DashboardClientProps) {
       console.error("Failed to refresh analytics:", error);
     } finally {
       setIsRefreshing(false);
+    }
+  };
+
+  const handlePublish = async () => {
+    setIsPublishing(true);
+    try {
+      const res = await fetch("/api/profile/publish", {
+        method: "POST",
+      });
+
+      if (res.ok) {
+        toastSuccess("Profile published", "Your profile is now live!");
+        await queryClient.invalidateQueries();
+        router.refresh();
+      } else {
+        const data = await res.json();
+        toastError("Publish failed", data.error || "Failed to publish your profile");
+      }
+    } catch {
+      toastError("Error", "Failed to publish your profile");
+    } finally {
+      setIsPublishing(false);
     }
   };
 
@@ -254,6 +285,35 @@ export function DashboardClient({ initialProfile }: DashboardClientProps) {
           Manage your links and see a live preview of your profile
         </p>
       </div>
+
+      {shouldShowPublishAlert && (
+        <Alert variant="warning" className="mb-6">
+          <AlertTitle>Publish your profile</AlertTitle>
+          <AlertDescription>
+            {canPublishNow
+              ? "Your profile is ready to publish. Click the button below to make it accessible."
+              : "Your profile is not published yet. Complete your profile setup with a username and at least one link, then publish it to make it accessible."}
+          </AlertDescription>
+          <AlertAction>
+            {canPublishNow ? (
+              <Button
+                size="sm"
+                onClick={handlePublish}
+                disabled={isPublishing}
+              >
+                {isPublishing ? "Publishing..." : "Publish Profile"}
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                onClick={() => router.push("/onboarding/username")}
+              >
+                Complete Profile
+              </Button>
+            )}
+          </AlertAction>
+        </Alert>
+      )}
 
       <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
         <div className="space-y-6">

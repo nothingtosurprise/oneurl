@@ -233,7 +233,7 @@ export async function getFallbackPreviewImage(): Promise<string | null> {
       return null;
     }
 
-    fallbackImageUrl = firstResult.data.ufsUrl || firstResult.data.url || null;
+    fallbackImageUrl = firstResult.data.ufsUrl || null;
     return fallbackImageUrl;
   } catch (error) {
     console.error("[Link Preview] Failed to upload fallback image:", error);

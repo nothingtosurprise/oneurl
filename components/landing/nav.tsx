@@ -18,6 +18,20 @@ export function LandingNav() {
         </Link>
         <div className="flex items-center gap-4">
           <Button 
+            render={<Link href="/profiles" className="hover:text-foreground transition-colors">Profiles</Link>} 
+            variant="ghost"
+            className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+          >
+            Profiles
+          </Button>
+          <Button 
+            render={<Link href="/collections" className="hover:text-foreground transition-colors">Collections</Link>} 
+            variant="ghost"
+            className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+          >
+            Collections
+          </Button>
+          <Button 
             render={<Link href="/support" className="hover:text-foreground transition-colors">Sponsor OneURL</Link>} 
             variant="ghost"
             className="text-sm font-medium text-zinc-600 hover:text-zinc-900"

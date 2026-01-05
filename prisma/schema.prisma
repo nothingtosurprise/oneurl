@@ -14,20 +14,22 @@ datasource db {
 }
 
 model User {
-  id            String    @id
+  id            String          @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean         @default(false)
   image         String?
-  username      String?   @unique
+  username      String?         @unique
   bio           String?
   avatarUrl     String?
-  isOnboarded   Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  isOnboarded   Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
   sessions      Session[]
   accounts      Account[]
   profile       Profile?
+  collections   Collection[]
+  collectionVotes CollectionVote[]
 
   @@unique([email])
   @@map("user")
@@ -144,4 +146,67 @@ model LinkClick {
   @@index([utmMedium])
   @@index([utmCampaign])
   @@map("link_click")
+}
+
+enum CollectionCategory {
+  UI_LIBRARY
+  RESOURCES
+  SITES
+  TOOLS
+  OTHER
+}
+
+enum VoteType {
+  UP
+  DOWN
+}
+
+model Collection {
+  id          String           @id @default(cuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  category    CollectionCategory @default(OTHER)
+  links       CollectionLink[]
+  votes       CollectionVote[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([category])
+  @@index([createdAt])
+  @@map("collection")
+}
+
+model CollectionLink {
+  id                String     @id @default(cuid())
+  collectionId      String
+  collection        Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  title             String
+  url               String
+  icon              String?
+  previewImageUrl   String?
+  previewDescription String?
+  position          Int
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@index([collectionId])
+  @@map("collection_link")
+}
+
+model CollectionVote {
+  id          String     @id @default(cuid())
+  collectionId String
+  collection  Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voteType    VoteType
+  createdAt   DateTime   @default(now())
+
+  @@unique([collectionId, userId])
+  @@index([collectionId])
+  @@index([userId])
+  @@map("collection_vote")
 }

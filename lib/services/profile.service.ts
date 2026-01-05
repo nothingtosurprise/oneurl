@@ -84,7 +84,7 @@ export const profileService = {
     });
   },
 
-  async getPublishedProfiles(limit: number = 10) {
+  async getPublishedProfiles(limit?: number, offset?: number) {
     return db.user.findMany({
       where: {
         profile: {
@@ -97,7 +97,8 @@ export const profileService = {
         avatarUrl: true,
         image: true,
       },
-      take: limit,
+      ...(limit ? { take: limit } : {}),
+      ...(offset ? { skip: offset } : {}),
       orderBy: {
         createdAt: "desc",
       },

@@ -11,6 +11,7 @@ import {
   LogOut,
   MessageCircle,
   Heart,
+  FolderOpen,
 } from "lucide-react";
 import {
   Sidebar,
@@ -111,6 +112,14 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  render={<Link href="/collections" />}
+                >
+                  <FolderOpen />
+                  <span>Collections</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <FeedbackDialog
                   trigger={
